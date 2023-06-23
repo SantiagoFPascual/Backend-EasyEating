@@ -5,7 +5,6 @@ export default class RestauranteService {
     getAll = async () => {
         let returnAll = null;
         console.log("Estoy en: restauranteService.getAll()")
-        console.log(config);
         try {
             let pool = await sql.connect(config)
             let result = await pool.request()
@@ -21,7 +20,6 @@ export default class RestauranteService {
     getById = async (id) => {
         let returnEntity = null;
         console.log('Estoy en: restauranteService.GetById(id)');
-        console.log(config);
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
@@ -60,7 +58,6 @@ export default class RestauranteService {
     update = async (id, restaurante) => {
         let updateReturn = null;
         console.log('Estoy en: restauranteService.update');
-        console.log(restaurante);
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()

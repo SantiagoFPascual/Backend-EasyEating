@@ -1,4 +1,4 @@
-const BASE_URL_RESTAURANTES = 'http://localhost:3000/api/restaurantes/';
+const BASE_URL_RESTAURANTES = 'http://localhost:5000/api/restaurantes/';
 
 function LimpiarPantalla(){
     document.querySelector("#contenedor").innerHTML="";
