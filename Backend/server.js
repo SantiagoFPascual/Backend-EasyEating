@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import express from "express";
 import cors from "cors";
-import RestauranteRouter from "./src/controllers/restauranteController.js";
+import RestauranteRouter from "./BaseDeDatos/src/controllers/restauranteController.js";
 
 
 const app  = express();
@@ -9,7 +9,7 @@ const port = 5000;
 
 app.use(cors());
 app.use(express.json());
-app.use('/front', express.static('public'));
+app.use('/front', express.static('./BaseDeDatos/public'));
 
 //endpoint de los routers
 

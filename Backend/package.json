@@ -24,7 +24,7 @@
         "build": "vite build --outDir dist --base './'",
         "test": "tsc --no-emit",
         "preview": "vite preview",
-        "apicomida": "node index.js",
+        "apicomida": "node indexApiComida.js",
         "server": "nodemon server.js"
     },
     "type": "module",
