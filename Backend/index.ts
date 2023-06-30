@@ -7,6 +7,8 @@
 const parser = new DOMParser();
 
 function initMap() {
+
+    alert("Entro")
   
   //Estas coordenadas son donde empieza el mapa
     const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
@@ -82,9 +84,6 @@ function initMap() {
         position: { lat: 37.415, lng: -122.01 },
         content: pinViewNoGlyph.element,
     });*/
-
-    
-
 }
 
 declare global {

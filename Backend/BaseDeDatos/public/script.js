@@ -26,7 +26,6 @@ function CargarDatosPorId(){
     console.log("entra a cargar datos por ID");
     let url=BASE_URL_RESTAURANTES;
     let id=document.getElementById('idRestaurante').value;
-    console.log("id: " + id);
     axios
         .get(url+id)
         .then((result)=>{
@@ -44,13 +43,12 @@ function BorrarRestaurante(){
     console.log("entra a borrar restaurante");
     let url=BASE_URL_RESTAURANTES;
     let id=document.getElementById('idBorrar').value;
-    console.log("ID: " + id)
 
     axios
         .delete(url+id)
         .then((result)=>{
                 document.querySelector("#contenedor").innerHTML+=`
-                <h4>Se borró la pizza</h4>`;       
+                <h4>Se borró el restaurante</h4>`;       
         })
     
     .catch((error)=>{
@@ -72,7 +70,6 @@ function UpdateRestaurante(){
 
     
     let url=BASE_URL_RESTAURANTES+idRestaurante;
-    console.log("URL : " + url)
 
     const params = {
         idRestaurante: idRestaurante,
@@ -84,12 +81,9 @@ function UpdateRestaurante(){
         telefono: telefono
     };
 
-    console.log(params);
-
     axios
         .put(url, params)
         .then((result)=>{
-                console.log('resultado', result.data);
                 if (result.data!=0) {
                     document.querySelector("#contenedor").innerHTML+=`<h4>Se actualizó el restuarante</h4>`;
                 }

@@ -1,9 +1,6 @@
 import axios from 'axios'
 import https from 'https'
-/*
-import config from 'config'
-import fs from 'fs'
-*/
+
 function getNutritionalInfo(url){
 
     //ES MOMENTANEO EL REJECT UNAUTHORIZED
@@ -12,10 +9,9 @@ function getNutritionalInfo(url){
     httpsAgent: new https.Agent({ rejectUnauthorized: false }) 
     })
     .then((result) => {
-        console.log("entra al axios");
         var producto = result.data;
         //console.log(producto);
-        if (producto) {
+        if (producto != null) {
             console.log('BarCode: ' + producto.product._id);
             console.log('INFO NUTRICIONAL:');
             //EN LA LINEA 1536 DEL POSTMAN
