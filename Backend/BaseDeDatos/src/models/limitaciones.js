@@ -1,6 +1,6 @@
 class Limitaciones {
     idLimitacion;
-    limitacion
+    limitacion;
 }
 
 export default Limitaciones;
