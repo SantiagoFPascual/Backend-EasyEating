@@ -92,7 +92,7 @@ function initMap() {
         title: 'Title text for the marker at lat: 37.419, lng: -122.03',
     });*/
 
-    // Adjust the scale.
+    // Ajusta la escala
     const pinViewScaled = new google.maps.marker.PinView({
         scale: 1.5,
     });
