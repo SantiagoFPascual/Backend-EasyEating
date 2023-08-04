@@ -1,4 +1,5 @@
 import axios from 'axios'
+import RestauranteService from './BaseDeDatos/src/services/restaurantes-services.js';
 
 /**
  * @license
@@ -6,9 +7,25 @@ import axios from 'axios'
  * SPDX-License-Identifier: Apache-2.0
  */
 
+
+
+/*
+for (var i = 0; i < 6; i++)
+{
+  
+}
+*/
+
+
+
 const parser = new DOMParser();
 
 function initMap() {
+    
+    const coords = RestauranteService.getCoordsById(5);
+
+    console.log(coords);
+
     let url='http://localhost:5000/api/restaurantes/';
     axios
         .get(url)

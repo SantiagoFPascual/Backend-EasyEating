@@ -17,6 +17,21 @@ router.get('', async (req, res) => {
   return respuesta;
 });
 
+router.get('/coords/:id', async (req, res) => {
+  let respuesta;
+  let id = req.params.id;
+  console.log("GetById" + id);
+  const coords = await restauranteService.getCoordsById(id);
+
+  if (coords!=null){
+    respuesta = res.status(StatusCodes.OK).json(coords);
+  } else {
+    respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el restaurante (id:${id}).`);
+  }
+
+  return respuesta;
+});
+
 router.get('/:id', async (req, res) => {
   let respuesta;
   let id = req.params.id;
@@ -26,7 +41,7 @@ router.get('/:id', async (req, res) => {
   if (restaurante!=null){
     respuesta = res.status(StatusCodes.OK).json(restaurante);
   } else {
-    respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontro el restaurante (id:${id}).`);
+    respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el restaurante (id:${id}).`);
   }
 
   return respuesta;
@@ -57,7 +72,7 @@ router.delete('/:id', async (req, res) => {
   if (registrosAfectados!=0){
     respuesta = res.status(StatusCodes.OK).json(respuesta);
   } else {
-    respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontro la Pizza (id:${id}).`);
+    respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el restaurante (id:${id}).`);
   }
   return respuesta;
 });
