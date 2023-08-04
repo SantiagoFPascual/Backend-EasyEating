@@ -1,5 +1,4 @@
-import axios from 'axios'
-import RestauranteService from './BaseDeDatos/src/services/restaurantes-services.js';
+//import RestauranteService from './BaseDeDatos/src/services/restaurantes-services.js';
 
 /**
  * @license
@@ -18,22 +17,9 @@ const parser = new DOMParser();
 
 async function initMap() {
     
-    const coords = await RestauranteService.getCoordsById(5);
+    /*const coords = await RestauranteService.getCoordsById(5);
 
-    console.log(coords);
-
-    let url='http://localhost:5000/api/restaurantes/';
-    axios
-        .get(url)
-        .then((result)=>{
-
-            console.log("h");
-             
-        })
-    
-    .catch((error)=>{
-        console.log(error);
-    });
+    console.log(coords);*/
   
   //Estas coordenadas son donde empieza el mapa
     const map = new google.maps.Map(document.getElementById('map') as HTMLElement, {
@@ -50,18 +36,52 @@ async function initMap() {
         glyphColor: 'white',
     });
 
-    //Array de ejemplo
+    const pinView2 = new google.maps.marker.PinView({
+        background: '#00B65C',
+        borderColor: '#000000',
+        glyphColor: 'white',
+    });
+
+    /*
+    Array de ejemplo
     let num = [7, 8, 9];
     num.forEach(function (value) {
+    });
+    */
+    const coords = [{ lat: -34.61172463990566, lng: -58.422167399999985 },
+                    { lat: 34, lng: 50 },
+                    { lat: -34.611538672314765, lng: -58.4303597451144 },
+                    
+                    ]
+    
+    /*coords.forEach(function (item) {  
+        let ll = { lat: item.lat, lng: item.lng};
+        console.log(ll);
+        const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
+            map,
+            position: ll,
+            content: pinViewStyled.element,
+        }); 
+    });*/
+
+    const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
+        map,
+        position: { lat: -34.611538672314765, lng: -58.4303597451144 },
+        content: pinViewStyled.element,
+    }); 
+    
+    const markerViewBackground2 = new google.maps.marker.AdvancedMarkerView({
+        map,
+        position: { lat: -34.61172463990566, lng: -58.422167399999985 },
+        content: pinView2.element,
     }); 
 
     //Aplicamos los cambios
-    const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
+    /*const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
         map,
         position: { lat: -34.61172463990566, lng: -58.422167399999985 },
         content: pinViewStyled.element,
-    });
-
+    });*/
     
     /*
     const markerViewBorder = new google.maps.marker.AdvancedMarkerView({
