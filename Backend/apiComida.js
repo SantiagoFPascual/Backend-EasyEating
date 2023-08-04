@@ -1,6 +1,9 @@
 import axios from 'axios'
 import https from 'https'
 
+//PARA SABER SI ES APTO PARA CELIACOS O INTOLERANTES A LA LACTOSA:
+//traces_tags Línea 1925
+
 function getNutritionalInfo(url){
 
     //ES MOMENTANEO EL REJECT UNAUTHORIZED

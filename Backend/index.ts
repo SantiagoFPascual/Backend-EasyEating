@@ -7,8 +7,6 @@ import RestauranteService from './BaseDeDatos/src/services/restaurantes-services
  * SPDX-License-Identifier: Apache-2.0
  */
 
-
-
 /*
 for (var i = 0; i < 6; i++)
 {
@@ -16,13 +14,11 @@ for (var i = 0; i < 6; i++)
 }
 */
 
-
-
 const parser = new DOMParser();
 
-function initMap() {
+async function initMap() {
     
-    const coords = RestauranteService.getCoordsById(5);
+    const coords = await RestauranteService.getCoordsById(5);
 
     console.log(coords);
 
