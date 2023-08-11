@@ -28,31 +28,50 @@ function getNutritionalInfo(barcode){
             console.log('La propiedad _id no está definida en el producto');
         }
 
-        //PARA SABER SI TIENE GLUTEN
+        //PARA SABER SI ES APTO CELIACOS:
 
         var length_labels = producto.product.labels_hierarchy.length
-        var tieneGluten = true;
+        var aptoCeliacos = false;
 
         for (let i = 0; i < length_labels; i++) {    
             if (producto.product.labels_hierarchy[i] == 'es:sin-tacc' || producto.product.labels_hierarchy[i] == 'en:no-gluten') {
-                tieneGluten = false;
+                aptoCeliacos = true;
             }     
         }
 
-        console.log(tieneGluten)
+        console.log("¿Es apto para celíacos? " + aptoCeliacos)
        
-        //PARA SABER SI TIENE LACTOSA
+        //PARA SABER SI ES APTO INTOLERANTES A LA LACTOSA:
 
         var length_labels_lactose = producto.product.labels_hierarchy.length
-        var tieneLactosa = true;
+        var aptoIntLactosa = false;
 
         for (let i = 0; i < length_labels_lactose; i++) {    
             if (producto.product.labels_hierarchy[i] == 'en:no-lactose') {
-                tieneLactosa = false;
+                aptoIntLactosa = true;
             }     
         }
 
-        console.log(tieneLactosa)
+        console.log("¿Es apto para intolerantes a la lactosa? " + aptoIntLactosa)
+
+        //PARA SABER SI ES APTO DIABÉTICOS:
+
+        var aptoDiabetes='No es apto, tiene más de 15g de carbohidratos por cada 100g';
+        var aptoDiabetes = false;
+
+        if(producto.product.nutriments.carbohydrates_100g < 12)
+        {
+            aptoDiabetes = 'Es apto para diabéticos'
+            aptoDiabetes = true;
+        }
+        else if (producto.product.nutriments.carbohydrates_100g > 12 && producto.product.nutriments.carbohydrates_100g < 15)
+        {
+            aptoDiabetes = 'Es apto para diabéticos, aunque la cantidad de carbohidratos es un poco elevada'
+            aptoDiabetes = true;
+        }
+
+        console.log("¿Es apto para diabéticos? " + aptoDiabetes)
+        
 
     })
     .catch((error) => {
