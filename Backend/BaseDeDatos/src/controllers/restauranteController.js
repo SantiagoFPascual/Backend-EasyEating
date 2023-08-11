@@ -17,6 +17,18 @@ router.get('', async (req, res) => {
   return respuesta;
 });
 
+router.get('/coords', async (req, res) => {
+  let respuesta;
+  const coords = await restauranteService.getCoordsAll();
+  if (coords!=null){
+    respuesta = res.status(StatusCodes.OK).json(coords);
+  } else {
+    respuesta = res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error interno.`);
+  }
+
+  return respuesta;
+});
+
 router.get('/coords/:id', async (req, res) => {
   let respuesta;
   let id = req.params.id;

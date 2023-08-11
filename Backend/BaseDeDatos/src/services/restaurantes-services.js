@@ -35,6 +35,21 @@ export default class RestauranteService {
         return returnEntity;
     }
 
+    getCoordsAll = async () => {
+        let returnAll = null;
+        console.log("Estoy en: restauranteService.getCoordsAll()")
+        try {
+            let pool = await sql.connect(config)
+            let result = await pool.request()
+                .query('Select latitud, longitud FROM Restaurante')
+            returnAll = result.recordsets[0];
+        }
+        catch (error) {
+            console.log(error);
+        }
+        return returnAll;
+    }
+
     getCoordsById = async (id) => {
         let returnEntity = null;
         console.log('Estoy en: restauranteService.GetCoordsById(id)');
@@ -52,6 +67,7 @@ export default class RestauranteService {
         console.log(returnEntity);
         return returnEntity;
     }
+
 
     insert = async (restaurante) => {
         let returnEntity = null;

@@ -58,6 +58,7 @@ async function initMap() {
             background: '#00B65C',
             borderColor: '#FFFFFF',
             glyphColor: 'white',
+            scale: 1.2
         });
 
         const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
@@ -69,64 +70,9 @@ async function initMap() {
         
     });
 
-    //Aplicamos los cambios
-    /*const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
-        map,
-        position: { lat: -34.61172463990566, lng: -58.422167399999985 },
-        content: pinViewStyled.element,
-    });*/
-    
-    /*
-    const markerViewBorder = new google.maps.marker.AdvancedMarkerView({
-        map,
-        position: { lat: 37.415, lng: -122.03 },
-        content: pinViewBorder.element,
-    });*/
-
-    /*
-    // Change the glyph color.
-    const pinViewGlyph = new google.maps.marker.PinView({
-        glyphColor: 'white',
-    });*/
-    /*
-    const markerViewGlyph = new google.maps.marker.AdvancedMarkerView({
-        map,
-        position: { lat: 37.415, lng: -122.02 },
-        content: pinViewGlyph.element,
-    });*/
-
-    // Hide the glyph.
-    /*
-    const pinViewNoGlyph = new google.maps.marker.PinView({
-        glyph: '',
-    });
-    */
-   
-    /*const markerViewNoGlyph = new google.maps.marker.AdvancedMarkerView({
-        map,
-        position: { lat: 37.415, lng: -122.01 },
-        content: pinViewNoGlyph.element,
-    });*/
-
-        // Each PinView is paired with a MarkerView to demonstrate setting each parameter.
-
-    // Default marker with title text (no PinView).
-    /*
-    const markerViewWithText = new google.maps.marker.AdvancedMarkerView({
-        map,
-        position: { lat: 37.419, lng: -122.03 },
-        title: 'Title text for the marker at lat: 37.419, lng: -122.03',
-    });*/
-
     // Ajusta la escala
-    const pinViewScaled = new google.maps.marker.PinView({
+    /*const pinViewScaled = new google.maps.marker.PinView({
         scale: 1.5,
-    });
-    /*
-    const markerViewScaled = new google.maps.marker.AdvancedMarkerView({
-        map,
-        position: { lat: 37.419, lng: -122.02 },
-        content: pinViewScaled.element,
     });*/
 
 }
