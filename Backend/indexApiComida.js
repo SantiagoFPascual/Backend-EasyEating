@@ -1,7 +1,7 @@
 import getNutritionalInfo from './apiComida.js'
 
-console.log("llega")
+//7790045824893
 
-var url = 'https://world.openfoodfacts.org/api/v0/product/7790045824893.json';
-
-getNutritionalInfo(url)
+var barcode = 7798128000691;
+ 
+getNutritionalInfo(barcode)
