@@ -30,17 +30,13 @@ async function initMap() {
     });
 
     //Cambios de diseño
-    const pinViewStyled = new google.maps.marker.PinView({
-        background: '#00B65C',
-        borderColor: '#FFFFFF',
-        glyphColor: 'white',
-    });
 
-    const pinView2 = new google.maps.marker.PinView({
+
+    /*const pinView2 = new google.maps.marker.PinView({
         background: '#00B65C',
         borderColor: '#000000',
         glyphColor: 'white',
-    });
+    });*/
 
     /*
     Array de ejemplo
@@ -48,33 +44,30 @@ async function initMap() {
     num.forEach(function (value) {
     });
     */
-    const coords = [{ lat: -34.61172463990566, lng: -58.422167399999985 },
-                    { lat: 34, lng: 50 },
+    const coords = [{ lat: -34.60853837294786, lng: -58.4306551602909 },
+                    { lat: -34.61335019300495, lng: -58.43798387809736 },
+                    { lat: -34.61172463990566, lng: -58.422167399999985 },
                     { lat: -34.611538672314765, lng: -58.4303597451144 },
-                    
                     ]
     
-    /*coords.forEach(function (item) {  
+    coords.forEach(function (item) {  
         let ll = { lat: item.lat, lng: item.lng};
         console.log(ll);
+
+        const pinViewStyled = new google.maps.marker.PinView({
+            background: '#00B65C',
+            borderColor: '#FFFFFF',
+            glyphColor: 'white',
+        });
+
         const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
             map,
             position: ll,
             content: pinViewStyled.element,
         }); 
-    });*/
 
-    const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
-        map,
-        position: { lat: -34.611538672314765, lng: -58.4303597451144 },
-        content: pinViewStyled.element,
-    }); 
-    
-    const markerViewBackground2 = new google.maps.marker.AdvancedMarkerView({
-        map,
-        position: { lat: -34.61172463990566, lng: -58.422167399999985 },
-        content: pinView2.element,
-    }); 
+        
+    });
 
     //Aplicamos los cambios
     /*const markerViewBackground = new google.maps.marker.AdvancedMarkerView({
