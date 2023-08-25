@@ -19,5 +19,5 @@ app.use("/api/limitaciones", LimitacionesRouter);
 app.use("/api/usuarios", UsuariosRouter);
 
 app.listen(port, () => {
-  console.log(`"server" escuchando el en el puerto ${port} (http://localhost:${port}/)`);
+  console.log(`"server" escuchando el en el puerto ${port} (http://localhost:${port}/front)`);
 });
