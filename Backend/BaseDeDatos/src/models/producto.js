@@ -8,4 +8,4 @@ class Producto {
     grasasSaturadas;
 }
 
-export default Restaurante;
+export default Producto;

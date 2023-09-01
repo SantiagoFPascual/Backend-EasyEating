@@ -6,7 +6,7 @@ import https from 'https'
 
 const URL="https://world.openfoodfacts.org/api/v0/product/"
 
-function getNutritionalInfo(barcode){
+export default function getNutritionalInfo(barcode){
     var aptoDiabetesEsp
 
     //ES MOMENTANEO EL REJECT UNAUTHORIZED
@@ -24,19 +24,27 @@ function getNutritionalInfo(barcode){
             console.log('BarCode: ' + producto.product._id);
             console.log('Nombre del producto: ' + producto.product.product_name + ' - ' + producto.product.brands);
             console.log('INFO NUTRICIONAL:');
-            //EN LA LINEA 1536 DEL POSTMAN
+            //EN LA LINEA 1536 DEL POSTMAN 
             console.log('Calorías por 100g: ' + producto.product.nutriments.energy_value + producto.product.nutriments.energy_unit);
             console.log('Carbohidratos: ' + producto.product.nutriments.carbohydrates_100g + producto.product.nutriments.carbohydrates_unit);
             console.log('Grasas: ' + producto.product.nutriments.fat_100g + producto.product.nutriments.fat_unit);
+            console.log('Grasas saturadas: ' + producto.product.nutriments.saturated-fat_100g + producto.product.nutriments.saturated-fat_unit);
             console.log('Porteínas: ' + producto.product.nutriments.proteins_100g + producto.product.nutriments.proteins_unit);
         } else {
             console.log('La propiedad _id no está definida en el producto');
         }
 
+        //CREAMOS EL OBJETO PRODUCTO
+
+        const productoEscaneado{
+            barCode=producto.product._id,
+
+        }
+
         //PARA SABER SI ES APTO CELIACOS:
         aptoCeliacos = AptoCeliacos(producto)
         console.log("¿Es apto para celíacos? " + aptoCeliacos)
-       
+
         //PARA SABER SI ES APTO INTOLERANTES A LA LACTOSA:
         aptoIntLactosa = AptoIntLactosa(producto)
         console.log("¿Es apto para intolerantes a la lactosa? " + aptoIntLactosa)
@@ -72,6 +80,8 @@ function getNutritionalInfo(barcode){
     .catch((error) => {
         console.log(error);
     });
+
+    return productoEscaneado;
 }
 
 function AptoCeliacos(producto){
@@ -117,5 +127,3 @@ function AptoDiabetes(producto){
 
     return aptoDiabetes
 }
-
-export default getNutritionalInfo

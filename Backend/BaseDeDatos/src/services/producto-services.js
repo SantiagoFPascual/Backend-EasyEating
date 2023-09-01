@@ -17,13 +17,13 @@ export default class ProductoService {
         return returnAll;
     }
 
-    getById = async (id) => {
+    getById = async (barCode) => {
         let returnEntity = null;
         console.log('Estoy en: ProductoService.GetById(id)');
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                                    .input('pIdProducto', sql.Int, id)
+                                    .input('pBarCode', sql.NChar, barCode)
                                     .query('SELECT * FROM Producto WHERE barCode = @pBarCode');
             returnEntity = result.recordsets[0][0];
 
@@ -31,7 +31,8 @@ export default class ProductoService {
             console.log(error);
         }
         console.log('Estoy en: ProductoService.GetById(id) FIN');
-        console.log(returnEntity);
+        console.log("ReturnEntity " + returnEntity);
+
         return returnEntity;
     }
 
@@ -41,7 +42,7 @@ export default class ProductoService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-            .input('pBarCode', sql.Int, Producto.barCode)
+            .input('pBarCode', sql.NChar, Producto.barCode)
             .input('pNombre', sql.NChar, Producto.nombre)
             .input('pProteinas', sql.Float, Producto.proteinas)
             .input('pCarbohidratos', sql.Float, Producto.carbohidratos)
@@ -62,7 +63,7 @@ export default class ProductoService {
             let pool = await sql.connect(config);
             let result = await pool.request()
                .input('pIdProducto', sql.Int, id)
-               .input('pBarCode', sql.Int, Producto.barCode)
+               .input('pBarCode', sql.NChar, Producto.barCode)
                .input('pNombre', sql.NChar, Producto.nombre)
                .input('pProteinas', sql.Float, Producto.proteinas)
                .input('pCarbohidratos', sql.Float, Producto.carbohidratos)
@@ -82,7 +83,7 @@ export default class ProductoService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                .input('pId', sql.Int, id)
+                .input('pIdProducto', sql.Int, id)
                 .query('DELETE FROM Producto WHERE idProducto = @pId');
             rowsAffected = result.rowsAffected;
         } catch (error) {
