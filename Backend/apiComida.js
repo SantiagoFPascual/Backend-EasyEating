@@ -25,20 +25,14 @@ export default function getNutritionalInfo(barcode){
             console.log('Nombre del producto: ' + producto.product.product_name + ' - ' + producto.product.brands);
             console.log('INFO NUTRICIONAL:');
             //EN LA LINEA 1536 DEL POSTMAN 
-            console.log('Calorías por 100g: ' + producto.product.nutriments.energy_value + producto.product.nutriments.energy_unit);
+            console.log('Porteínas: ' + producto.product.nutriments.proteins_100g + producto.product.nutriments.proteins_unit);
             console.log('Carbohidratos: ' + producto.product.nutriments.carbohydrates_100g + producto.product.nutriments.carbohydrates_unit);
             console.log('Grasas: ' + producto.product.nutriments.fat_100g + producto.product.nutriments.fat_unit);
-            console.log('Grasas saturadas: ' + producto.product.nutriments.saturated-fat_100g + producto.product.nutriments.saturated-fat_unit);
-            console.log('Porteínas: ' + producto.product.nutriments.proteins_100g + producto.product.nutriments.proteins_unit);
+            //console.log('Grasas saturadas: ' + producto.product.nutriments.saturated-fat_100g + producto.product.nutriments.saturated-fat_unit);
+            console.log('Calorías por 100g: ' + producto.product.nutriments.energy_value + producto.product.nutriments.energy_unit);
+            
         } else {
             console.log('La propiedad _id no está definida en el producto');
-        }
-
-        //CREAMOS EL OBJETO PRODUCTO
-
-        const productoEscaneado{
-            barCode=producto.product._id,
-
         }
 
         //PARA SABER SI ES APTO CELIACOS:
@@ -74,12 +68,32 @@ export default function getNutritionalInfo(barcode){
         }
         
         console.log('¿Es apto para diabéticos? ' + aptoDiabetes + '. ' +  aptoDiabetesEsp)
-        
+        var productoEscaneado = GetScannedProduct(producto)
+        console.log("NOMBRE PorducEscanedo: " + productoEscaneado.nombre)
+        //resolve(productoEscaneado);
+        return productoEscaneado
 
     })
     .catch((error) => {
         console.log(error);
     });
+
+    
+}
+
+function GetScannedProduct(producto){
+    //CREAMOS EL OBJETO PRODUCTO
+
+    const productoEscaneado = {
+        barCode: producto.product._id,
+        nombre: producto.product.product_name + ' - ' + producto.product.brands,
+        proteinas: producto.product.nutriments.proteins_100g,
+        carbohidratos: producto.product.nutriments.carbohydrates_100g,
+        grasas: producto.product.nutriments.fat_100g,
+        //grasasSaturadas: producto.product.nutriments.saturated-fat_100g,
+        grasasSaturadas: 1.5,
+        calorias: producto.product.nutriments.energy_value
+    }
 
     return productoEscaneado;
 }

@@ -6,6 +6,7 @@ class Producto {
     carbohidratos;
     grasas;
     grasasSaturadas;
+    calorias;
 }
 
 export default Producto;

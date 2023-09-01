@@ -27,12 +27,12 @@ router.get('/:barCode', async (req, res) => {
     if (producto!=null){
         respuesta = res.status(StatusCodes.OK).json(producto);
     } else {
-        //respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto (barCode: ${barCode}).`);
+        
+        const info = new getNutritionalInfo(barCode);
+        console.log("ACA: " + info.barCode)
+        
+        respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto en la base de datos(barCode: ${barCode}).`);
 
-        if(producto==null){
-            const info = new getNutritionalInfo(barCode);
-            console.log("ACA: " + info)
-        }
 
     }
 

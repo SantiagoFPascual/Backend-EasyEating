@@ -48,7 +48,8 @@ export default class ProductoService {
             .input('pCarbohidratos', sql.Float, Producto.carbohidratos)
             .input('pGrasas', sql.Float, Producto.grasas)
             .input('pGrasasSaturadas', sql.Float, Producto.grasasSaturadas)
-            .query('INSERT INTO Producto (barCode, nombre, proteinas, carbohidratos, grasas, grasasSaturadas) VALUES(@pBarCode, @pNombre, @pProteinas, @pCarbohidratos, @pGrasas, @pGrasasSaturadas)');
+            .input('pCalorias', sql.Int, Producto.calorias)
+            .query('INSERT INTO Producto (barCode, nombre, proteinas, carbohidratos, grasas, grasasSaturadas, calorias) VALUES(@pBarCode, @pNombre, @pProteinas, @pCarbohidratos, @pGrasas, @pGrasasSaturadas, @pCalorias)');
             returnEntity = result.rowsAffected;
         } catch (error){
             console.log(error);
@@ -69,7 +70,8 @@ export default class ProductoService {
                .input('pCarbohidratos', sql.Float, Producto.carbohidratos)
                .input('pGrasas', sql.Float, Producto.grasas)
                .input('pGrasasSaturadas', sql.Float, Producto.grasasSaturadas)
-               .query('UPDATE Producto set barcode = @pBarCode, nombre = @pNombre, proteinas = @pProteinas, carbohidratos = @pCarbohidratos, grasas = @pGrasas, grasasSaturadas = @pGrasasSaturadas WHERE idProducto = @pId;');
+               .input('pCalorias', sql.Int, Producto.calorias)
+               .query('UPDATE Producto set barcode = @pBarCode, nombre = @pNombre, proteinas = @pProteinas, carbohidratos = @pCarbohidratos, grasas = @pGrasas, grasasSaturadas = @pGrasasSaturadas, calorias = @pCalorias WHERE idProducto = @pId;');
             updateReturn = result.rowsAffected;
         } catch (error) {
             console.log(error);
