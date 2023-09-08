@@ -1,10 +1,11 @@
 import {Router} from 'express';
 import ProductoService from '../services/producto-services.js';
 import { ReasonPhrases, StatusCodes} from 'http-status-codes';
-import getNutritionalInfo from '../../../apiComida.js'
+import NutritionalInfo from '../../../apiComida.js'
 
 const router = Router();
 const productoService = new ProductoService();
+const nutritionalInfo = new NutritionalInfo();
 
 router.get('', async (req, res) => {
     let respuesta;
@@ -21,22 +22,25 @@ router.get('', async (req, res) => {
 router.get('/:barCode', async (req, res) => {
     let respuesta;
     let barCode = req.params.barCode;
+
+
     console.log("GetById " + barCode);
     const producto = await productoService.getById(barCode);
 
     if (producto!=null){
         respuesta = res.status(StatusCodes.OK).json(producto);
     } else {
+        console.log("BARCODE: " + barCode)
+
+        const info = await nutritionalInfo.getNutritionalInfo(barCode);
+        console.log("ACA: " + info.nombre)
         
-        const info = new getNutritionalInfo(barCode);
-        console.log("ACA: " + info.barCode)
-        
-        respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto en la base de datos(barCode: ${barCode}).`);
+        respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto en la base de datos(barCode: ${barCode}). Ahora se ingreserá el producto en la base de datos.`);
 
 
     }
 
-    return respuesta;
+    return respuesta;  0
 });
 
 router.post('/', async (req, res) => {

@@ -6,13 +6,15 @@ import https from 'https'
 
 const URL="https://world.openfoodfacts.org/api/v0/product/"
 
-export default function getNutritionalInfo(barcode){
+export default class NutritionalInfo{
+ getNutritionalInfo = async (barcode) => {
+    console.log("BARCODE2")
     var aptoDiabetesEsp
-
     //ES MOMENTANEO EL REJECT UNAUTHORIZED
     let url_final = URL + barcode + '.json' 
+    console.log(url_final);
     axios.get(url_final, { 
-    httpsAgent: new https.Agent({ rejectUnauthorized: false }) 
+        httpsAgent: new https.Agent({ rejectUnauthorized: false }) 
     })
     .then((result) => {
 
@@ -20,7 +22,11 @@ export default function getNutritionalInfo(barcode){
 
         var producto = result.data;
         
-        if (producto != null) {
+        if (producto.status == 1) {
+            /*console.log('-------------------------------');
+            console.log(producto);
+            console.log('-------------------------------');*/         
+            /*
             console.log('BarCode: ' + producto.code);
             console.log('Nombre del producto: ' + producto.product.product_name + ' - ' + producto.product.brands);
             console.log('INFO NUTRICIONAL:');
@@ -31,47 +37,50 @@ export default function getNutritionalInfo(barcode){
             //console.log('Grasas saturadas: ' + producto.product.nutriments.saturated-fat_100g + producto.product.nutriments.saturated-fat_unit);
             console.log('Calorías por 100g: ' + producto.product.nutriments.energy_value + producto.product.nutriments.energy_unit);
             
-        } else {
-            console.log('La propiedad _id no está definida en el producto');
-        }
+            //PARA SABER SI ES APTO CELIACOS:
+            aptoCeliacos = AptoCeliacos(producto)
+            console.log("¿Es apto para celíacos? " + aptoCeliacos)
 
-        //PARA SABER SI ES APTO CELIACOS:
-        aptoCeliacos = AptoCeliacos(producto)
-        console.log("¿Es apto para celíacos? " + aptoCeliacos)
+            //PARA SABER SI ES APTO INTOLERANTES A LA LACTOSA:
+            aptoIntLactosa = AptoIntLactosa(producto)
+            console.log("¿Es apto para intolerantes a la lactosa? " + aptoIntLactosa)
 
-        //PARA SABER SI ES APTO INTOLERANTES A LA LACTOSA:
-        aptoIntLactosa = AptoIntLactosa(producto)
-        console.log("¿Es apto para intolerantes a la lactosa? " + aptoIntLactosa)
+            //PARA SABER SI ES APTO DIABÉTICOS:
+            aptoDiabetes = AptoDiabetes(producto)
 
-        //PARA SABER SI ES APTO DIABÉTICOS:
-        aptoDiabetes = AptoDiabetes(producto)
-
-        switch (aptoDiabetes) {
-            case 1:
-                aptoDiabetesEsp = 'No es apto, tiene más de 15g de carbohidratos por cada 100g';
-                aptoDiabetes = false;
-                
-                break;
-            case 2:
-                aptoDiabetesEsp = 'Es apto para diabéticos'
-                aptoDiabetes = true;
+            switch (aptoDiabetes) {
+                case 1:
+                    aptoDiabetesEsp = 'No es apto, tiene más de 15g de carbohidratos por cada 100g';
+                    aptoDiabetes = false;
                     
-                break;
-            case 3:
-                aptoDiabetesEsp = 'Es apto para diabéticos, aunque la cantidad de carbohidratos es un poco elevada'
-                aptoDiabetes = true;
+                    break;
+                case 2:
+                    aptoDiabetesEsp = 'Es apto para diabéticos'
+                    aptoDiabetes = true;
                         
-                break;
-        
-            default:
-                break;
+                    break;
+                case 3:
+                    aptoDiabetesEsp = 'Es apto para diabéticos, aunque la cantidad de carbohidratos es un poco elevada'
+                    aptoDiabetes = true;
+                            
+                    break;
+            
+                default:
+                    break;
+            }
+            console.log('¿Es apto para diabéticos? ' + aptoDiabetes + '. ' +  aptoDiabetesEsp)
+            */
+            var productoEscaneado = GetScannedProduct(producto)
+            console.log("PorducEscanedo: ");
+            console.log(producto);
+            //resolve(productoEscaneado);
+            return productoEscaneado
+            
+        } else {
+            console.log('Status = 0. El barcode no existe');
         }
+
         
-        console.log('¿Es apto para diabéticos? ' + aptoDiabetes + '. ' +  aptoDiabetesEsp)
-        var productoEscaneado = GetScannedProduct(producto)
-        console.log("NOMBRE PorducEscanedo: " + productoEscaneado.nombre)
-        //resolve(productoEscaneado);
-        return productoEscaneado
 
     })
     .catch((error) => {
@@ -79,6 +88,7 @@ export default function getNutritionalInfo(barcode){
     });
 
     
+}
 }
 
 function GetScannedProduct(producto){
