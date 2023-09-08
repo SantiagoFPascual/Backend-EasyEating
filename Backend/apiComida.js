@@ -19,9 +19,9 @@ export default function getNutritionalInfo(barcode){
         var aptoCeliacos, aptoDiabetes, aptoIntLactosa;
 
         var producto = result.data;
-        //console.log(producto);
+        
         if (producto != null) {
-            console.log('BarCode: ' + producto.product._id);
+            console.log('BarCode: ' + producto.code);
             console.log('Nombre del producto: ' + producto.product.product_name + ' - ' + producto.product.brands);
             console.log('INFO NUTRICIONAL:');
             //EN LA LINEA 1536 DEL POSTMAN 
