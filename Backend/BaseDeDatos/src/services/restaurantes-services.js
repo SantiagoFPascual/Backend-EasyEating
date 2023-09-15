@@ -95,14 +95,14 @@ export default class RestauranteService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-               .input('pId', sql.Int, id)
-               .input('pNombre', sql.NChar, restaurante.nombre)
-               .input('pDireccion', sql.NChar, restaurante.direccion)
-               .input('pLatitud', sql.NChar, restaurante.latitud)
-               .input('pLongitud', sql.NChar, restaurante.longitud)
-               .input('pHorario', sql.NChar, restaurante.horario)
-               .input('pTelefono', sql.Int, restaurante.telefono)
-               .query('UPDATE Restaurante set nombre = @pNombre, direccion = @pDireccion, latitud = @pLatitud, longitud = @pLongitud, horario = @pHorario, telefono = @pTelefono WHERE idRestaurante = @pId;');
+            .input('pId', sql.Int, id)
+            .input('pNombre', sql.NChar, restaurante.nombre)
+            .input('pDireccion', sql.NChar, restaurante.direccion)
+            .input('pLatitud', sql.NChar, restaurante.latitud)
+            .input('pLongitud', sql.NChar, restaurante.longitud)
+            .input('pHorario', sql.NChar, restaurante.horario)
+            .input('pTelefono', sql.Int, restaurante.telefono)
+            .query('UPDATE Restaurante set nombre = @pNombre, direccion = @pDireccion, latitud = @pLatitud, longitud = @pLongitud, horario = @pHorario, telefono = @pTelefono WHERE idRestaurante = @pId;');
             updateReturn = result.rowsAffected;
         } catch (error) {
             console.log(error);

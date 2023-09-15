@@ -37,6 +37,7 @@ router.get('/:barCode', async (req, res) => {
 
         const registrosAfectados = await productoService.insert(info);
         respuesta = res.status(StatusCodes.CREATED).json(registrosAfectados);
+        console.log("LLEGA AL FINAL DEL ELSE")
         
         //respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto en la base de datos(barCode: ${barCode}). Ahora se ingreserá el producto en la base de datos.`);
     }
