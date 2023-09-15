@@ -6,33 +6,32 @@ import { ReasonPhrases, StatusCodes} from 'http-status-codes';
 const router = Router();
 const usuariosService = new UsuariosService();
 
-router.get('', async (req, res) => {
-  let respuesta;
-  const usuarios = await usuariosService.getAll();
-  if (usuarios!=null){
-    respuesta = res.status(StatusCodes.OK).json(usuarios);
-  } else {
-    respuesta = res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error interno.`);
-  }
-
-  return respuesta;
-});
-
-
-router.get('/:id', async (req, res) => {
+  router.get('', async (req, res) => {
     let respuesta;
-    let id = req.params.id;
-    console.log("GetById" + id);
-    const usuario = await usuariosService.getById(id);
-  
-    if (usuario!=null){
-      respuesta = res.status(StatusCodes.OK).json(usuario);
+    const usuarios = await usuariosService.getAll();
+    if (usuarios!=null){
+      respuesta = res.status(StatusCodes.OK).json(usuarios);
     } else {
-      respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontro al usuario (id:${id}).`);
+      respuesta = res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(`Error interno.`);
     }
-  
+
     return respuesta;
   });
+
+  router.get('/:id', async (req, res) => {
+      let respuesta;
+      let id = req.params.id;
+      console.log("GetById" + id);
+      const usuario = await usuariosService.getById(id);
+    
+      if (usuario!=null){
+        respuesta = res.status(StatusCodes.OK).json(usuario);
+      } else {
+        respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontro al usuario (id:${id}).`);
+      }
+    
+      return respuesta;
+    });
 
   router.post('/', async (req, res) => {
     let usuario = req.body;
@@ -64,6 +63,19 @@ router.get('/:id', async (req, res) => {
     return respuesta;
   });
 
+  router.post('/login', async (req, res) =>{
+    try{
+        let usuario = req.body;
+        let usuarioActualizado = await usuariosService.login(usuario);
+        if(usuarioActualizado != null){
+            res.status(200).send(usuarioActualizado);
+        }else{
+            res.status(404).send('No fue posible realizar el login');   
+        }
+    }catch(e){
+        console.log(e);        
+    }
+})
 
 
 export default router;

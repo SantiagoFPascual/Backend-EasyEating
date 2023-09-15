@@ -63,22 +63,20 @@ export default class UsuariosService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-               .input('pId', sql.Int, id)
-               .input('pNombre', sql.NChar, usuarios.nombre)
-               .input('pApellido', sql.NChar, usuarios.apellido)
-               .input('pCorreo', sql.NChar, usuarios.correo)
-               .input('pContrasena', sql.NChar, usuarios.contrasena)
-               .input('pFechaNacimiento', sql.NChar, usuarios.fechaNacimiento)
-               .input('pIdLimitacion', sql.Int, usuarios.idLimitacion)
-               .query('UPDATE Usuario set nombre = @pNombre, apellido = @pApellido, correo = @pCorreo, contrasena = @pContrasena, fechaNacimiento = @pFechaNacimiento, idLimitacion = @pIdLimitacion WHERE idUsuario = @pId;');
+            .input('pId', sql.Int, id)
+            .input('pNombre', sql.NChar, usuarios.nombre)
+            .input('pApellido', sql.NChar, usuarios.apellido)
+            .input('pCorreo', sql.NChar, usuarios.correo)
+            .input('pContrasena', sql.NChar, usuarios.contrasena)
+            .input('pFechaNacimiento', sql.NChar, usuarios.fechaNacimiento)
+            .input('pIdLimitacion', sql.Int, usuarios.idLimitacion)
+            .query('UPDATE Usuario set nombre = @pNombre, apellido = @pApellido, correo = @pCorreo, contrasena = @pContrasena, fechaNacimiento = @pFechaNacimiento, idLimitacion = @pIdLimitacion WHERE idUsuario = @pId;');
             updateReturn = result.rowsAffected;
         } catch (error) {
             console.log(error);
         }
         return updateReturn;
     }
-
-
 
     deleteById = async (id) => {
         let rowsAffected = 0;
@@ -93,6 +91,80 @@ export default class UsuariosService {
             console.log(error);
         }
         return rowsAffected;
+    }
+
+    getByNamePassword = async (nombre, contrasena) =>{
+        let returnUsuario = null;
+        console.log('Estoy en: GetUsuarioByNamePassword')
+        try{
+            let pool = await sql.connect(config);
+            let result = await pool.request() 
+                .input('pNombre', sql.VarChar, nombre)
+                .input('pContrasena', sql.VarChar, contrasena)
+                .query(`SELECT * FROM Usuario WHERE nombre = @pNombre AND contrasena = @pContrasena`);
+                returnUsuario = result.recordsets[0][0];
+        } catch (e){
+            CopiaError(e.toString() + " AT UsuariosService/GetUsuarioByNamePassword");
+        }
+        return returnUsuario;        
+    }
+
+    getByToken = async (token) =>{
+        let returnUsuario = null;
+        console.log('Estoy en: GetUsuarioByToken')
+        try{
+            let pool = await sql.connect(config);
+            let result = await pool.request() 
+                .input('pToken', sql.VarChar, token)
+                .query(`SELECT * FROM Usuario WHERE Token = @pToken`);
+                returnUsuario = result.recordsets[0][0];
+        } catch (e){
+            CopiaError(e.toString() + " AT UsuariosService/GetUsuarioByToken");
+        }
+        return returnUsuario;        
+    }
+
+    updateTokenById = async (id) => {
+        let rowsAffected = 0;
+        console.log('Estoy en: UpdateTokenUsuario')
+        try{
+
+            let token = randomUUID();
+            let tokenExpirationDate = new Date();
+            tokenExpirationDate.setMinutes(tokenExpirationDate.getMinutes() + 20);         
+
+            let pool = await sql.connect(config);
+            let result = await pool.request()  
+                .input('pId', sql.Int, id)  
+                .input('pToken', sql.VarChar, token)    
+                .input('pTokenExpirationDate', sql.DateTime, tokenExpirationDate)                
+                .query('UPDATE Usuario SET Token = @pToken, TokenExpirationDate = @pTokenExpirationDate WHERE Id = @pId ');
+            rowsAffected = result.rowsAffected; 
+        } catch (e){
+            CopiaError(e.toString() + " AT UsuariosService/UpdateToken");
+        }
+        return rowsAffected;
+    }
+
+    login = async (usuario) => {
+        let usuarioActualizado = null;
+        console.log('Estoy en: UpdateToken')
+        try{
+
+            let nombre = usuario.nombre;
+            let contrasena = usuario.contrasena;
+            let usuarioSeleccionado = await this.getByNamePassword(nombre, contrasena);     
+
+            if(usuarioSeleccionado != null)
+            {
+                let rowsAffected = await this.updateTokenById(usuarioSeleccionado.Id);  
+                usuarioActualizado = await this.getById(usuarioSeleccionado.Id);  
+            }
+
+        } catch (e){
+            CopiaError(e.toString() + " AT UsuariosService/Login");
+        }
+        return usuarioActualizado;
     }
 }
 
