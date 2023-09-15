@@ -63,15 +63,15 @@ export default class ProductoService {
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-               .input('pIdProducto', sql.Int, id)
-               .input('pBarCode', sql.NChar, Producto.barCode)
-               .input('pNombre', sql.NChar, Producto.nombre)
-               .input('pProteinas', sql.Float, Producto.proteinas)
-               .input('pCarbohidratos', sql.Float, Producto.carbohidratos)
-               .input('pGrasas', sql.Float, Producto.grasas)
-               .input('pGrasasSaturadas', sql.Float, Producto.grasasSaturadas)
-               .input('pCalorias', sql.Int, Producto.calorias)
-               .query('UPDATE Producto set barcode = @pBarCode, nombre = @pNombre, proteinas = @pProteinas, carbohidratos = @pCarbohidratos, grasas = @pGrasas, grasasSaturadas = @pGrasasSaturadas, calorias = @pCalorias WHERE idProducto = @pId;');
+            .input('pIdProducto', sql.Int, id)
+            .input('pBarCode', sql.NChar, Producto.barCode)
+            .input('pNombre', sql.NChar, Producto.nombre)
+            .input('pProteinas', sql.Float, Producto.proteinas)
+            .input('pCarbohidratos', sql.Float, Producto.carbohidratos)
+            .input('pGrasas', sql.Float, Producto.grasas)
+            .input('pGrasasSaturadas', sql.Float, Producto.grasasSaturadas)
+            .input('pCalorias', sql.Int, Producto.calorias)
+            .query('UPDATE Producto set barcode = @pBarCode, nombre = @pNombre, proteinas = @pProteinas, carbohidratos = @pCarbohidratos, grasas = @pGrasas, grasasSaturadas = @pGrasasSaturadas, calorias = @pCalorias WHERE idProducto = @pId;');
             updateReturn = result.rowsAffected;
         } catch (error) {
             console.log(error);

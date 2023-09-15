@@ -34,14 +34,16 @@ router.get('/:barCode', async (req, res) => {
 
         const info = await nutritionalInfo.getNutritionalInfo(barCode);
         console.log("ACA: " + info.nombre)
+
+        const registrosAfectados = await productoService.insert(info);
+        respuesta = res.status(StatusCodes.CREATED).json(registrosAfectados);
         
-        respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto en la base de datos(barCode: ${barCode}). Ahora se ingreserá el producto en la base de datos.`);
-
-
+        //respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto en la base de datos(barCode: ${barCode}). Ahora se ingreserá el producto en la base de datos.`);
     }
 
     return respuesta;  0
 });
+
 
 router.post('/', async (req, res) => {
     let producto = req.body;
@@ -49,9 +51,36 @@ router.post('/', async (req, res) => {
     const registrosAfectados = await productoService.insert(producto);
 
     return res.status(StatusCodes.CREATED).json(registrosAfectados);
-    });
+});
 
-    router.put('/:id', async (req, res) => {
+/*
+router.post('/:barCode', async (req, res) => {
+    let respuesta;
+    let barCode = req.params.barCode;
+
+    console.log("GetById " + barCode);
+
+    const producto = await productoService.getById(barCode);
+
+    if (producto != null) {
+        respuesta = res.status(StatusCodes.OK).json(producto);
+    } else {
+        console.log("BARCODE: " + barCode)
+
+        const info = await nutritionalInfo.getNutritionalInfo(barCode);
+        console.log("ACA: " + info.nombre)
+
+        // Asumiendo que `info` contiene los datos del producto para insertar
+        const registrosAfectados = await productoService.insert(info);
+
+        respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto en la base de datos(barCode: ${barCode}). Ahora se ingresará el producto en la base de datos.`);
+    }
+
+    return respuesta;
+});
+*/
+
+router.put('/:id', async (req, res) => {
     let id    = req.params.id;
     let producto = req.body;
 

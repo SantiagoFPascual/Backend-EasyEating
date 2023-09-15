@@ -8,25 +8,24 @@ const URL="https://world.openfoodfacts.org/api/v0/product/"
 
 export default class NutritionalInfo{
  getNutritionalInfo = async (barcode) => {
-    console.log("BARCODE2")
+    console.log("ENTRA A GET_NUTRITIONAL_INFO")
     var aptoDiabetesEsp
     //ES MOMENTANEO EL REJECT UNAUTHORIZED
     let url_final = URL + barcode + '.json' 
-    console.log(url_final);
-    axios.get(url_final, { 
-        httpsAgent: new https.Agent({ rejectUnauthorized: false }) 
-    })
-    .then((result) => {
-
-        var aptoCeliacos, aptoDiabetes, aptoIntLactosa;
-
-        var producto = result.data;
-        
-        if (producto.status == 1) {
+    try {
+        const response = await axios.get(url_final, {
+            httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+        });
+        if (response.status === 200) {
+            const producto = response.data;
+            if (producto.status === 1) {
             /*console.log('-------------------------------');
             console.log(producto);
             console.log('-------------------------------');*/         
             /*
+
+            var aptoCeliacos, aptoIntLactosa, aptoDiabetes
+
             console.log('BarCode: ' + producto.code);
             console.log('Nombre del producto: ' + producto.product.product_name + ' - ' + producto.product.brands);
             console.log('INFO NUTRICIONAL:');
@@ -71,24 +70,21 @@ export default class NutritionalInfo{
             console.log('¿Es apto para diabéticos? ' + aptoDiabetes + '. ' +  aptoDiabetesEsp)
             */
             var productoEscaneado = GetScannedProduct(producto)
-            console.log("PorducEscanedo: ");
-            console.log(producto);
+            //console.log("PorducEscanedo: ");
+            //console.log(producto);
             //resolve(productoEscaneado);
             return productoEscaneado
             
         } else {
             console.log('Status = 0. El barcode no existe');
         }
-
-        
-
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-
-    
+    } else {
+        console.log('Error en la respuesta de la API');
+    }
+} catch (error) {
+    console.log(error);
 }
+};
 }
 
 function GetScannedProduct(producto){
