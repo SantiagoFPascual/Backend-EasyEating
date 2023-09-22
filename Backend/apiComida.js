@@ -18,7 +18,6 @@ export default class NutritionalInfo{
         });
         if (response.status === 200) {
             const producto = response.data;
-            if (producto.status === 1) {
             /*console.log('-------------------------------');
             console.log(producto);
             console.log('-------------------------------');*/         
@@ -75,31 +74,38 @@ export default class NutritionalInfo{
             //resolve(productoEscaneado);
             return productoEscaneado
             
-        } else {
-            console.log('Status = 0. El barcode no existe');
-        }
     } else {
         console.log('Error en la respuesta de la API');
+        
     }
 } catch (error) {
     console.log(error);
 }
+return productoEscaneado
 };
 }
 
 function GetScannedProduct(producto){
     //CREAMOS EL OBJETO PRODUCTO
+    var productoEscaneado;
 
-    const productoEscaneado = {
-        barCode: producto.product._id,
-        nombre: producto.product.product_name + ' - ' + producto.product.brands,
-        proteinas: producto.product.nutriments.proteins_100g,
-        carbohidratos: producto.product.nutriments.carbohydrates_100g,
-        grasas: producto.product.nutriments.fat_100g,
-        //grasasSaturadas: producto.product.nutriments.saturated-fat_100g,
-        grasasSaturadas: 1.5,
-        calorias: producto.product.nutriments.energy_value
+    if(producto.status != 0)
+    {
+        productoEscaneado = {
+            barCode: producto.product._id,
+            nombre: producto.product.product_name + ' - ' + producto.product.brands,
+            proteinas: producto.product.nutriments.proteins_100g,
+            carbohidratos: producto.product.nutriments.carbohydrates_100g,
+            grasas: producto.product.nutriments.fat_100g,
+            //grasasSaturadas: producto.product.nutriments.saturated-fat_100g,
+            grasasSaturadas: 1.5,
+            calorias: producto.product.nutriments.energy_value
+        }
+    }else{
+        productoEscaneado=null
     }
+
+    
 
     return productoEscaneado;
 }

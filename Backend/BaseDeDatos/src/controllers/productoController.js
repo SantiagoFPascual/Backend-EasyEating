@@ -25,7 +25,7 @@ router.get('/:barCode', async (req, res) => {
 
 
     console.log("GetById " + barCode);
-    const producto = await productoService.getById(barCode);
+    var producto = await productoService.getById(barCode);
 
     if (producto!=null){
         respuesta = res.status(StatusCodes.OK).json(producto);
@@ -33,11 +33,16 @@ router.get('/:barCode', async (req, res) => {
         console.log("BARCODE: " + barCode)
 
         const info = await nutritionalInfo.getNutritionalInfo(barCode);
-        console.log("ACA: " + info.nombre)
+        if(info != null){
+            console.log("ACA: " + info.nombre)
+            producto = await productoService.getById(barCode);
 
-        const registrosAfectados = await productoService.insert(info);
-        respuesta = res.status(StatusCodes.OK).json(registrosAfectados).json(producto);
-        console.log("LLEGA AL FINAL DEL ELSE")
+            const registrosAfectados = await productoService.insert(info);
+            respuesta = res.status(StatusCodes.OK).json(registrosAfectados);
+            respuesta = res.status(StatusCodes.OK).json(producto);
+        }else{
+            respuesta = res.status(StatusCodes.BAD_REQUEST)
+        }
         
         //respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontró el producto en la base de datos(barCode: ${barCode}). Ahora se ingreserá el producto en la base de datos.`);
     }

@@ -5,6 +5,7 @@ import RestauranteRouter from "./BaseDeDatos/src/controllers/restauranteControll
 import LimitacionesRouter from "./BaseDeDatos/src/controllers/limitacionesController.js";
 import UsuarioRouter from "./BaseDeDatos/src/controllers/usuariosController.js";
 import ProductoRouter from "./BaseDeDatos/src/controllers/productoController.js";
+import LimitacionXProductoRouter from "./BaseDeDatos/src/controllers/limitacionesXProductoController.js";
 
 const app  = express();
 const port = 5000;
@@ -19,6 +20,7 @@ app.use("/api/restaurantes", RestauranteRouter);
 app.use("/api/limitaciones", LimitacionesRouter);
 app.use("/api/usuarios", UsuarioRouter);
 app.use("/api/productos", ProductoRouter);
+app.use("/api/limitacionxproducto", LimitacionXProductoRouter);
 
 app.listen(port, () => {
   console.log(`"server" escuchando el en el puerto ${port} (http://localhost:${port}/front)`);

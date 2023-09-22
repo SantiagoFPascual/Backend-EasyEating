@@ -1,13 +1,14 @@
 import {Router} from 'express';
-import LimitacionesService from '../services/limitaciones-services.js';
+import LimitacionesXProductoService from '../services/limitacionesXProducto-services.js';
 import {StatusCodes} from 'http-status-codes';
 
 const router = Router();
-const limitacionesService = new LimitacionesService();
+const limitacionesXProductoService = new LimitacionesXProductoService();
 
 router.get('', async (req, res) => {
   let respuesta;
-  const limitaciones = await limitacionesService.getAll();
+  console.log("llega")
+  const limitaciones = await limitacionesXProductoService.getAll();
   if (limitaciones!=null){
     respuesta = res.status(StatusCodes.OK).json(limitaciones);
   } else {
@@ -21,7 +22,7 @@ router.get('/:id', async (req, res) => {
     let respuesta;
     let id = req.params.id;
     console.log("GetById" + id);
-    const limitacion = await limitacionesService.getById(id);
+    const limitacion = await limitacionesXProductoService.getById(id);
   
     if (limitacion!=null){
       respuesta = res.status(StatusCodes.OK).json(limitacion);
@@ -33,18 +34,18 @@ router.get('/:id', async (req, res) => {
   });
 
   router.post('/', async (req, res) => {
-    let limitacion = req.body;
+    let limitacionXProducto = req.body;
   
-    const registrosAfectados = await limitacionesService.insert(limitacion);
+    const registrosAfectados = await limitacionesXProductoService.insert(limitacionXProducto);
   
     return res.status(StatusCodes.CREATED).json(registrosAfectados);
   });
 
   router.put('/:id', async (req, res) => {
     let id    = req.params.id;
-    let limitacion = req.body;
+    let limitacionXProducto = req.body;
   
-    const registrosAfectados = await limitacionesService.update(id, limitacion);
+    const registrosAfectados = await limitacionesXProductoService.update(id, limitacionXProducto);
   
     return res.status(StatusCodes.OK).json(registrosAfectados);
   });
@@ -53,11 +54,11 @@ router.get('/:id', async (req, res) => {
     let respuesta;
     let id = req.params.id;
   
-    const registrosAfectados = await limitacionesService.deleteById(id);
+    const registrosAfectados = await limitacionesXProductoService.deleteById(id);
     if (registrosAfectados!=0){
       respuesta = res.status(StatusCodes.OK).json(respuesta);
     } else {
-      respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontro la limitacion (id:${id}).`);
+      respuesta = res.status(StatusCodes.NOT_FOUND).send(`No se encontro la limitación del producto (id:${id}).`);
     }
     return respuesta;
   });
