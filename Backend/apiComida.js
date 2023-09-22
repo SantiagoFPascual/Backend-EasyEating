@@ -1,5 +1,6 @@
 import axios from 'axios'
 import https from 'https'
+import ProductoService from '../services/producto-services.js';
 
 //PARA SABER SI ES APTO PARA CELIACOS O INTOLERANTES A LA LACTOSA:
 //traces_tags Línea 1925
@@ -17,7 +18,9 @@ export default class NutritionalInfo{
             httpsAgent: new https.Agent({ rejectUnauthorized: false }),
         });
         if (response.status === 200) {
+            console.log("Entra al response.status === 200")
             const producto = response.data;
+            if (producto.status === 1) {
             /*console.log('-------------------------------');
             console.log(producto);
             console.log('-------------------------------');*/         
@@ -68,20 +71,27 @@ export default class NutritionalInfo{
             }
             console.log('¿Es apto para diabéticos? ' + aptoDiabetes + '. ' +  aptoDiabetesEsp)
             */
+
+            const registrosAfectados = await productoService.insert(info);
             var productoEscaneado = GetScannedProduct(producto)
             //console.log("PorducEscanedo: ");
             //console.log(producto);
             //resolve(productoEscaneado);
             return productoEscaneado
             
+        } else {
+            console.log('Status = 0. El barcode no existe');
+            return null
+            
+        }
     } else {
         console.log('Error en la respuesta de la API');
         
     }
 } catch (error) {
     console.log(error);
+
 }
-return productoEscaneado
 };
 }
 
