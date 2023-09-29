@@ -61,7 +61,6 @@ export default class LimitacionesXProductoService {
                     for (let i = 0; i < length_labels; i++) {    
                         if (producto.product.labels_hierarchy[i] == 'es:sin-tacc' || producto.product.labels_hierarchy[i] == 'en:no-gluten') {
                             aptoCeliacos = true;
-                            console.log("ES APTO")
                         }     
                     }
 
@@ -120,7 +119,59 @@ export default class LimitacionesXProductoService {
                             let pool = await sql.connect(config);
                             let result = await pool.request()
                             .input('pIdProducto', sql.Int, idProducto)
-                            .input('pIdLimitacion', sql.Int, 1)
+                            .input('pIdLimitacion', sql.Int, 2)
+                            .query('INSERT INTO LimitacionXProducto (idProducto, idLimitacion) VALUES(@pIdProducto, @pIdLimitacion)');
+                            returnEntity = result.rowsAffected;
+                        } catch (error){
+                            console.log(error);
+                        }
+                    }
+                
+            } else {
+                console.log('Status = 0. El barcode no existe');
+                returnEntity = null
+                
+            }
+        } else {
+            console.log('Error en la respuesta de la API');
+            
+        }
+    } catch (error) {
+        console.log(error);
+        
+        return returnEntity;
+    }
+    }
+
+    insertIntLactosa = async (idProducto, barcode) => {
+        let returnEntity = null;
+        console.log('Estoy en: limitacionesXProductoService.insert')
+
+        //ES MOMENTANEO EL REJECT UNAUTHORIZED
+        let url_final = URL + barcode + '.json' 
+        try {
+            const response = await axios.get(url_final, {
+                httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+            });
+            if (response.status === 200) {
+                console.log("Entra al response.status === 200")
+                const producto = response.data;
+                if (producto.status === 1) {
+                    var length_labels_lactose = producto.product.labels_hierarchy.length
+                    var aptoIntLactosa = false;
+
+                    for (let i = 0; i < length_labels_lactose; i++) {    
+                        if (producto.product.labels_hierarchy[i] == 'en:no-lactose') {
+                            aptoIntLactosa = true;
+                        }     
+                    }
+
+                    if(aptoIntLactosa == false){
+                        try {
+                            let pool = await sql.connect(config);
+                            let result = await pool.request()
+                            .input('pIdProducto', sql.Int, idProducto)
+                            .input('pIdLimitacion', sql.Int, 3)
                             .query('INSERT INTO LimitacionXProducto (idProducto, idLimitacion) VALUES(@pIdProducto, @pIdLimitacion)');
                             returnEntity = result.rowsAffected;
                         } catch (error){

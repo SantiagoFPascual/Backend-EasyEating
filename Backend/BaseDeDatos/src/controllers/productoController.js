@@ -40,6 +40,8 @@ router.get('/:barCode', async (req, res) => {
             console.log("Existe el producto")
             producto = await productoService.getById(barCode);
             var celiaquia = await limitacionesXProductoService.insertCeliaquia(producto.idProducto, producto.barCode);
+            var diabetes = await limitacionesXProductoService.insertDiabetes(producto.idProducto, producto.barCode);
+            var intLactosa = await limitacionesXProductoService.insertIntLactosa(producto.idProducto, producto.barCode);
             
             respuesta = res.status(StatusCodes.OK).json(producto);
         }else{
