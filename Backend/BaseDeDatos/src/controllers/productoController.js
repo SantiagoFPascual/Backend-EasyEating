@@ -1,10 +1,11 @@
 import {Router} from 'express';
-import ProductoService from '../services/producto-services.js';
 import { ReasonPhrases, StatusCodes} from 'http-status-codes';
-//import NutritionalInfo from '../../../apiComida.js'
+import LimitacionesXProductoService from '../services/limitacionesXProducto-services.js';
+import ProductoService from '../services/producto-services.js';
 
 const router = Router();
 const productoService = new ProductoService();
+const limitacionesXProductoService = new LimitacionesXProductoService();
 //const nutritionalInfo = new NutritionalInfo();
 
 router.get('', async (req, res) => {
@@ -34,9 +35,12 @@ router.get('/:barCode', async (req, res) => {
         console.log("BARCODE: " + barCode)
 
         const info = await productoService.getNutritionalInfo(barCode);
+        
         if(info != null){
-            console.log("Existe eñ producto")
+            console.log("Existe el producto")
             producto = await productoService.getById(barCode);
+            const celiaquia = await limitacionesXProductoService.insertCeliaquia(producto.idProducto);
+
             respuesta = res.status(StatusCodes.OK).json(producto);
         }else{
             respuesta = res.status(StatusCodes.BAD_REQUEST).send(`Error en el BarCode`)

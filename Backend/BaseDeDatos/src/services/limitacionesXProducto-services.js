@@ -37,19 +37,32 @@ export default class LimitacionesXProductoService {
     }
 
 
-    insert = async (limitacionXProducto) => {
+    insertCeliaquia = async (limitacionXProducto) => {
+
+        var length_labels = producto.product.labels_hierarchy.length
+        var aptoCeliacos = false;
+
+        for (let i = 0; i < length_labels; i++) {    
+            if (producto.product.labels_hierarchy[i] == 'es:sin-tacc' || producto.product.labels_hierarchy[i] == 'en:no-gluten') {
+                aptoCeliacos = true;
+            }     
+        }
+
         let returnEntity = null;
         console.log('Estoy en: limitacionesXProductoService.insert')
-        try {
-            let pool = await sql.connect(config);
-            let result = await pool.request()
-            .input('pIdProducto', sql.Int, limitacionXProducto.idProducto)
-            .input('pIdLimitacion', sql.Int, limitacionXProducto.idLimitacion)
-            .query('INSERT INTO LimitacionXProducto (idProducto, idLimitacion) VALUES(@pIdProducto, @pIdLimitacion)');
-            returnEntity = result.rowsAffected;
-        } catch (error){
-            console.log(error);
+        if(aptoCeliacos == true){
+            try {
+                let pool = await sql.connect(config);
+                let result = await pool.request()
+                .input('pIdProducto', sql.Int, limitacionXProducto.idProducto)
+                .input('pIdLimitacion', sql.Int, )
+                .query('INSERT INTO LimitacionXProducto (idProducto, idLimitacion) VALUES(@pIdProducto, @pIdLimitacion)');
+                returnEntity = result.rowsAffected;
+            } catch (error){
+                console.log(error);
+            }
         }
+        
         return returnEntity;
     }
 

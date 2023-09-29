@@ -36,6 +36,8 @@ export default class ProductoService {
                 console.log("Entra al response.status === 200")
                 const producto = response.data;
                 if (producto.status === 1) {
+                    console.log("Entra al status=1")
+                    console.log(producto.product._id)
                     /*console.log("BAR CODE:")
                     console.log(producto.product._id)*/
 
@@ -53,13 +55,13 @@ export default class ProductoService {
                     try {
                         let pool = await sql.connect(config);
                         let result = await pool.request()
-                        .input('pBarCode', sql.NChar, producto.barCode)
-                        .input('pNombre', sql.NChar, producto.nombre)
-                        .input('pProteinas', sql.Float, producto.proteinas)
-                        .input('pCarbohidratos', sql.Float, producto.carbohidratos)
-                        .input('pGrasas', sql.Float, producto.grasas)
-                        .input('pGrasasSaturadas', sql.Float, producto.grasasSaturadas)
-                        .input('pCalorias', sql.Int, producto.calorias)
+                        .input('pBarCode', sql.NChar, productoEscaneado.barCode)
+                        .input('pNombre', sql.NChar, productoEscaneado.nombre)
+                        .input('pProteinas', sql.Float, productoEscaneado.proteinas)
+                        .input('pCarbohidratos', sql.Float, productoEscaneado.carbohidratos)
+                        .input('pGrasas', sql.Float, productoEscaneado.grasas)
+                        .input('pGrasasSaturadas', sql.Float, productoEscaneado.grasasSaturadas)
+                        .input('pCalorias', sql.Int, productoEscaneado.calorias)
                         .query('INSERT INTO Producto (barCode, nombre, proteinas, carbohidratos, grasas, grasasSaturadas, calorias) VALUES(@pBarCode, @pNombre, @pProteinas, @pCarbohidratos, @pGrasas, @pGrasasSaturadas, @pCalorias)');
                         returnEntity = result.rowsAffected;
                     } catch (error){
