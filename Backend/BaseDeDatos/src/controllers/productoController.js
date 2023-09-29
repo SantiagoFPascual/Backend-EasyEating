@@ -31,7 +31,7 @@ router.get('/:barCode', async (req, res) => {
     if (producto!=null){
         respuesta = res.status(StatusCodes.OK).json(producto);
     } else {
-        console.log("No se encontró el producto en la base de datos: OpenFood")
+        console.log("No se encontró el producto en nuestra base de datos")
         console.log("BARCODE: " + barCode)
 
         const info = await productoService.getNutritionalInfo(barCode);
@@ -39,8 +39,8 @@ router.get('/:barCode', async (req, res) => {
         if(info != null){
             console.log("Existe el producto")
             producto = await productoService.getById(barCode);
-            const celiaquia = await limitacionesXProductoService.insertCeliaquia(producto.idProducto);
-
+            var celiaquia = await limitacionesXProductoService.insertCeliaquia(producto.idProducto, producto.barCode);
+            
             respuesta = res.status(StatusCodes.OK).json(producto);
         }else{
             respuesta = res.status(StatusCodes.BAD_REQUEST).send(`Error en el BarCode`)

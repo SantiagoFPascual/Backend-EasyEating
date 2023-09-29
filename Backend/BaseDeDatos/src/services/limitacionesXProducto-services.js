@@ -1,5 +1,9 @@
 import config from '../../dbconfig.js';
 import sql from 'mssql';
+import axios from 'axios';
+import https from 'https'
+
+const URL="https://world.openfoodfacts.org/api/v0/product/"
 
 export default class LimitacionesXProductoService {
     getAll = async () => {
@@ -37,33 +41,107 @@ export default class LimitacionesXProductoService {
     }
 
 
-    insertCeliaquia = async (limitacionXProducto) => {
-
-        var length_labels = producto.product.labels_hierarchy.length
-        var aptoCeliacos = false;
-
-        for (let i = 0; i < length_labels; i++) {    
-            if (producto.product.labels_hierarchy[i] == 'es:sin-tacc' || producto.product.labels_hierarchy[i] == 'en:no-gluten') {
-                aptoCeliacos = true;
-            }     
-        }
-
+    insertCeliaquia = async (idProducto, barcode) => {
         let returnEntity = null;
         console.log('Estoy en: limitacionesXProductoService.insert')
-        if(aptoCeliacos == true){
-            try {
-                let pool = await sql.connect(config);
-                let result = await pool.request()
-                .input('pIdProducto', sql.Int, limitacionXProducto.idProducto)
-                .input('pIdLimitacion', sql.Int, )
-                .query('INSERT INTO LimitacionXProducto (idProducto, idLimitacion) VALUES(@pIdProducto, @pIdLimitacion)');
-                returnEntity = result.rowsAffected;
-            } catch (error){
-                console.log(error);
+
+        //ES MOMENTANEO EL REJECT UNAUTHORIZED
+        let url_final = URL + barcode + '.json' 
+        try {
+            const response = await axios.get(url_final, {
+                httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+            });
+            if (response.status === 200) {
+                console.log("Entra al response.status === 200")
+                const producto = response.data;
+                if (producto.status === 1) {
+                    var length_labels = producto.product.labels_hierarchy.length
+                    var aptoCeliacos = false;
+
+                    for (let i = 0; i < length_labels; i++) {    
+                        if (producto.product.labels_hierarchy[i] == 'es:sin-tacc' || producto.product.labels_hierarchy[i] == 'en:no-gluten') {
+                            aptoCeliacos = true;
+                            console.log("ES APTO")
+                        }     
+                    }
+
+                    if(aptoCeliacos == false){
+                        try {
+                            let pool = await sql.connect(config);
+                            let result = await pool.request()
+                            .input('pIdProducto', sql.Int, idProducto)
+                            .input('pIdLimitacion', sql.Int, 1)
+                            .query('INSERT INTO LimitacionXProducto (idProducto, idLimitacion) VALUES(@pIdProducto, @pIdLimitacion)');
+                            returnEntity = result.rowsAffected;
+                        } catch (error){
+                            console.log(error);
+                        }
+                    }
+                
+            } else {
+                console.log('Status = 0. El barcode no existe');
+                returnEntity = null
+                
             }
+        } else {
+            console.log('Error en la respuesta de la API');
+            
         }
+    } catch (error) {
+        console.log(error);
         
         return returnEntity;
+    }
+    }
+
+    insertDiabetes = async (idProducto, barcode) => {
+        let returnEntity = null;
+        console.log('Estoy en: limitacionesXProductoService.insert')
+
+        //ES MOMENTANEO EL REJECT UNAUTHORIZED
+        let url_final = URL + barcode + '.json' 
+        try {
+            const response = await axios.get(url_final, {
+                httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+            });
+            if (response.status === 200) {
+                console.log("Entra al response.status === 200")
+                const producto = response.data;
+                if (producto.status === 1) {
+                    var aptoDiabetes = false;
+
+                    if(producto.product.nutriments.carbohydrates_100g < 12)
+                    {
+                        aptoDiabetes = true;
+                    }
+
+                    if(aptoDiabetes == false){
+                        try {
+                            let pool = await sql.connect(config);
+                            let result = await pool.request()
+                            .input('pIdProducto', sql.Int, idProducto)
+                            .input('pIdLimitacion', sql.Int, 1)
+                            .query('INSERT INTO LimitacionXProducto (idProducto, idLimitacion) VALUES(@pIdProducto, @pIdLimitacion)');
+                            returnEntity = result.rowsAffected;
+                        } catch (error){
+                            console.log(error);
+                        }
+                    }
+                
+            } else {
+                console.log('Status = 0. El barcode no existe');
+                returnEntity = null
+                
+            }
+        } else {
+            console.log('Error en la respuesta de la API');
+            
+        }
+    } catch (error) {
+        console.log(error);
+        
+        return returnEntity;
+    }
     }
 
 

@@ -38,8 +38,6 @@ export default class ProductoService {
                 if (producto.status === 1) {
                     console.log("Entra al status=1")
                     console.log(producto.product._id)
-                    /*console.log("BAR CODE:")
-                    console.log(producto.product._id)*/
 
                     productoEscaneado = {
                         barCode: producto.product._id,
@@ -51,8 +49,10 @@ export default class ProductoService {
                         grasasSaturadas: 1.5,
                         calorias: producto.product.nutriments.energy_value
                     }
+                    console.log(productoEscaneado)
                 
                     try {
+                        console.log("entra al try")
                         let pool = await sql.connect(config);
                         let result = await pool.request()
                         .input('pBarCode', sql.NChar, productoEscaneado.barCode)
@@ -63,6 +63,7 @@ export default class ProductoService {
                         .input('pGrasasSaturadas', sql.Float, productoEscaneado.grasasSaturadas)
                         .input('pCalorias', sql.Int, productoEscaneado.calorias)
                         .query('INSERT INTO Producto (barCode, nombre, proteinas, carbohidratos, grasas, grasasSaturadas, calorias) VALUES(@pBarCode, @pNombre, @pProteinas, @pCarbohidratos, @pGrasas, @pGrasasSaturadas, @pCalorias)');
+                        console.log("Llega acá")
                         returnEntity = result.rowsAffected;
                     } catch (error){
                         console.log(error);

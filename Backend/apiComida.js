@@ -155,11 +155,6 @@ function AptoDiabetes(producto){
         //ES apto para diabéticos
         aptoDiabetes = 2;
     }
-    else if (producto.product.nutriments.carbohydrates_100g > 12 && producto.product.nutriments.carbohydrates_100g < 15)
-    {
-        //Es apto para diabéticos, aunque la cantidad de carbohidratos es un poco elevada
-        aptoDiabetes = 3;
-    }
 
     return aptoDiabetes
 }
