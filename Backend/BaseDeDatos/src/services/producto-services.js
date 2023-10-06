@@ -155,7 +155,7 @@ export default class ProductoService {
             let pool = await sql.connect(config);
             let result = await pool.request()
                 .input('pIdProducto', sql.Int, id)
-                .query('DELETE FROM Producto WHERE idProducto = @pId');
+                .query('DELETE FROM LimitacionXProducto WHERE idProducto = @pIdProducto DELETE FROM Producto WHERE idProducto = @pIdProducto');
             rowsAffected = result.rowsAffected;
         } catch (error) {
             console.log(error);

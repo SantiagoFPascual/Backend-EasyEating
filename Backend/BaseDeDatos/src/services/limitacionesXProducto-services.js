@@ -228,4 +228,19 @@ export default class LimitacionesXProductoService {
         }
         return rowsAffected;
     }
+
+    deleteByIdProducto= async (id) => {
+        let rowsAffected = 0;
+        console.log('Estoy en: limitacionesXProductoService.deleteById(id)');
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+                .input('pIdProducto', sql.Int, id)
+                .query('DELETE FROM LimitacionXProducto WHERE pIdProducto = @pIdProducto');
+            rowsAffected = result.rowsAffected;
+        } catch (error) {
+            console.log(error);
+        }
+        return rowsAffected;
+    }
 }
