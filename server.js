@@ -24,6 +24,6 @@ app.use("/api/productos", ProductoRouter);
 app.use("/api/limitacionxproducto", LimitacionXProductoRouter);
 app.use("/api/limitacionxrestaurante", LimitacionXRestauranteRouter);
 
-/*app.listen(port, () => {
+app.listen(port, () => {
   console.log(`"server" escuchando el en el puerto ${port} (http://localhost:${port}/front)`);
-});*/
+});
