@@ -77,8 +77,8 @@ export default class RestauranteService {
             let result = await pool.request()
             .input('pNombre', sql.NChar, restaurante.nombre)
             .input('pDireccion', sql.NChar, restaurante.direccion)
-            .input('pLatitud', sql.NChar, restaurante.latitud)
-            .input('pLongitud', sql.NChar, restaurante.longitud)
+            .input('pLatitud', sql.Float, restaurante.latitud)
+            .input('pLongitud', sql.Float, restaurante.longitud)
             .input('pHorario', sql.NChar, restaurante.horario)
             .input('pTelefono', sql.Int, restaurante.telefono)
             .query('INSERT INTO Restaurante (nombre, direccion, latitud, longitud, horario, telefono) VALUES(@pNombre, @pDireccion, @pLatitud, @pLongitud, @pHorario, @pTelefono)');
@@ -98,8 +98,8 @@ export default class RestauranteService {
             .input('pId', sql.Int, id)
             .input('pNombre', sql.NChar, restaurante.nombre)
             .input('pDireccion', sql.NChar, restaurante.direccion)
-            .input('pLatitud', sql.NChar, restaurante.latitud)
-            .input('pLongitud', sql.NChar, restaurante.longitud)
+            .input('pLatitud', sql.Float, restaurante.latitud)
+            .input('pLongitud', sql.Float, restaurante.longitud)
             .input('pHorario', sql.NChar, restaurante.horario)
             .input('pTelefono', sql.Int, restaurante.telefono)
             .query('UPDATE Restaurante set nombre = @pNombre, direccion = @pDireccion, latitud = @pLatitud, longitud = @pLongitud, horario = @pHorario, telefono = @pTelefono WHERE idRestaurante = @pId;');
