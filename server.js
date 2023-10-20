@@ -16,11 +16,11 @@ app.use('/front', express.static('./BaseDeDatos/public'));
 
 //endpoint de los routers
 
-app.use("/api/restaurantes", RestauranteRouter);
-app.use("/api/limitaciones", LimitacionesRouter);
-app.use("/api/usuarios", UsuarioRouter);
-app.use("/api/productos", ProductoRouter);
-app.use("/api/limitacionxproducto", LimitacionXProductoRouter);
+app.use("https://backendeasyeating.onrender.com/api/restaurantes", RestauranteRouter);
+app.use("https://backendeasyeating.onrender.com/api/limitaciones", LimitacionesRouter);
+app.use("https://backendeasyeating.onrender.com/api/usuarios", UsuarioRouter);
+app.use("https://backendeasyeating.onrender.com/api/productos", ProductoRouter);
+app.use("https://backendeasyeating.onrender.com/api/limitacionxproducto", LimitacionXProductoRouter);
 
 app.listen(port, () => {
   console.log(`"server" escuchando el en el puerto ${port} (http://localhost:${port}/front)`);
