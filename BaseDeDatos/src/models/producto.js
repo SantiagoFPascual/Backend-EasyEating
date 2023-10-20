@@ -5,7 +5,6 @@ class Producto {
     proteinas;
     carbohidratos;
     grasas;
-    grasasSaturadas;
     calorias;
 }
 
