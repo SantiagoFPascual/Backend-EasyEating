@@ -55,6 +55,22 @@ export default class LimitacionesXResauranteService {
         return updateReturn;
     }
 
+    insert = async (limitacionXRestaurante) => {
+        let returnEntity = null;
+        console.log('Estoy en: limitacionesXRestauranteService.insert')
+        try {
+            let pool = await sql.connect(config);
+            let result = await pool.request()
+            .input('pIdRestaurante', sql.Int, limitacionXRestaurante.idRestaurante)
+            .input('pIdLimitacion', sql.Int, limitacionXRestaurante.idLimitacion)
+            .query('INSERT INTO LimitacionXRestaurante (idRestaurante, idLimitacion) VALUES(@pIdRestaurante, @pIdLimitacion)');
+            returnEntity = result.rowsAffected;
+        } catch (error){
+            console.log(error);
+        }
+        return returnEntity;
+    }
+
 
     deleteById = async (id) => {
         let rowsAffected = 0;
