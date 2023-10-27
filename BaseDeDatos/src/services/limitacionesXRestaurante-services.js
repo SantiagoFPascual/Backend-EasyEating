@@ -18,7 +18,6 @@ export default class LimitacionesXResauranteService {
         catch (error) {
             console.log(error);
         }
-        console.log("ACA:")
         return returnAll;
     }
 
@@ -36,7 +35,6 @@ export default class LimitacionesXResauranteService {
             console.log(error);
         }
         console.log('Estoy en: limitacionesXRestauranteService.GetById(id) FIN');
-        console.log(returnEntity);
         return returnEntity;
     }
 

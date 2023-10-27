@@ -30,8 +30,6 @@ export default class RestauranteService {
         } catch (error) {
             console.log(error);
         }
-        console.log('Estoy en: restauranteService.GetById(id) FIN');
-        console.log(returnEntity);
         return returnEntity;
     }
 
