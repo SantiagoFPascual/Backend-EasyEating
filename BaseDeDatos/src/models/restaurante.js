@@ -6,6 +6,7 @@ class Restaurante {
     longitud;
     horario;
     telefono;
+    foto;
 }
 
 export default Restaurante;

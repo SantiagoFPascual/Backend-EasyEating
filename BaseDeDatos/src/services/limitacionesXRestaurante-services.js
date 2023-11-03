@@ -58,6 +58,7 @@ export default class LimitacionesXResauranteService {
     insert = async (limitacionXRestaurante) => {
         let returnEntity = null;
         console.log('Estoy en: limitacionesXRestauranteService.insert')
+        console.log(limitacionXRestaurante)
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()

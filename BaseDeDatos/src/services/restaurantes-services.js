@@ -79,7 +79,8 @@ export default class RestauranteService {
             .input('pLongitud', sql.Float, restaurante.longitud)
             .input('pHorario', sql.NChar, restaurante.horario)
             .input('pTelefono', sql.Int, restaurante.telefono)
-            .query('INSERT INTO Restaurante (nombre, direccion, latitud, longitud, horario, telefono) VALUES(@pNombre, @pDireccion, @pLatitud, @pLongitud, @pHorario, @pTelefono)');
+            .input('pFoto', sql.NChar, restaurante.foto)
+            .query('INSERT INTO Restaurante (nombre, direccion, latitud, longitud, horario, telefono, foto) VALUES(@pNombre, @pDireccion, @pLatitud, @pLongitud, @pHorario, @pTelefono, @pFoto)');
             returnEntity = result.rowsAffected;
         } catch (error){
             console.log(error);
@@ -100,7 +101,8 @@ export default class RestauranteService {
             .input('pLongitud', sql.Float, restaurante.longitud)
             .input('pHorario', sql.NChar, restaurante.horario)
             .input('pTelefono', sql.Int, restaurante.telefono)
-            .query('UPDATE Restaurante set nombre = @pNombre, direccion = @pDireccion, latitud = @pLatitud, longitud = @pLongitud, horario = @pHorario, telefono = @pTelefono WHERE idRestaurante = @pId;');
+            .input('pFoto', sql.NChar, restaurante.foto)
+            .query('UPDATE Restaurante set nombre = @pNombre, direccion = @pDireccion, latitud = @pLatitud, longitud = @pLongitud, horario = @pHorario, telefono = @pTelefono, foto = @pFoto WHERE idRestaurante = @pId;');
             updateReturn = result.rowsAffected;
         } catch (error) {
             console.log(error);
