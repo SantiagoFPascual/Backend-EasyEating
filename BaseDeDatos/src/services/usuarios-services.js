@@ -93,18 +93,18 @@ export default class UsuariosService {
         return rowsAffected;
     }
 
-    getByNamePassword = async (nombre, contrasena) =>{
+    getByMailPassword = async (correo, contrasena) =>{
         let returnUsuario = null;
-        console.log('Estoy en: GetUsuarioByNamePassword')
+        console.log('Estoy en: GetUsuarioByMailPassword')
         try{
             let pool = await sql.connect(config);
             let result = await pool.request() 
-                .input('pNombre', sql.VarChar, nombre)
-                .input('pContrasena', sql.VarChar, contrasena)
-                .query(`SELECT * FROM Usuario WHERE nombre = @pNombre AND contrasena = @pContrasena`);
+                .input('pCorreo', sql.NChar, correo)
+                .input('pContrasena', sql.NChar, contrasena)
+                .query(`SELECT * FROM Usuario WHERE correo = @pCorreo AND contrasena = @pContrasena`);
                 returnUsuario = result.recordsets[0][0];
         } catch (e){
-            CopiaError(e.toString() + " AT UsuariosService/GetUsuarioByNamePassword");
+            CopiaError(e.toString() + " AT UsuariosService/GetUsuarioByMailPassword");
         }
         return returnUsuario;        
     }
@@ -147,24 +147,24 @@ export default class UsuariosService {
     }
 
     login = async (usuario) => {
-        let usuarioActualizado = null;
-        console.log('Estoy en: UpdateToken')
+        let usuarioSeleccionado = null;
+        console.log('Estoy en: Login')
         try{
 
-            let nombre = usuario.nombre;
+            let correo = usuario.correo;
             let contrasena = usuario.contrasena;
-            let usuarioSeleccionado = await this.getByNamePassword(nombre, contrasena);     
+            usuarioSeleccionado = await this.getByMailPassword(correo, contrasena);     
 
-            if(usuarioSeleccionado != null)
+            /*if(usuarioSeleccionado != null)
             {
                 let rowsAffected = await this.updateTokenById(usuarioSeleccionado.Id);  
-                usuarioActualizado = await this.getById(usuarioSeleccionado.Id);  
-            }
+                usuarioFinal = await this.getById(usuarioSeleccionado.Id);  
+            }*/
 
         } catch (e){
             CopiaError(e.toString() + " AT UsuariosService/Login");
         }
-        return usuarioActualizado;
+        return usuarioSeleccionado;
     }
 }
 
