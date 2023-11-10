@@ -67,8 +67,6 @@ const usuariosService = new UsuariosService();
     try{
         let usuario = req.body;
         let usuarioActualizado = await usuariosService.login(usuario);
-        console.log("USUARIO:")
-        console.log(usuarioActualizado)
         if(usuarioActualizado != null){
             res.status(200).send(usuarioActualizado);
         }else{
