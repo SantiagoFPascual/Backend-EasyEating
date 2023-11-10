@@ -152,7 +152,9 @@ export default class UsuariosService {
         try{
 
             let correo = usuario.correo;
+            console.log(correo)
             let contrasena = usuario.contrasena;
+            console.log(contrasena)
             usuarioSeleccionado = await this.getByMailPassword(correo, contrasena);     
 
             /*if(usuarioSeleccionado != null)
