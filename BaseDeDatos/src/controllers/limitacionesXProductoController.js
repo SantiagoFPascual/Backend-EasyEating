@@ -22,7 +22,7 @@ router.get('/:id', async (req, res) => {
     let respuesta;
     let id = req.params.id;
     console.log("GetById" + id);
-    const limitacion = await limitacionesXProductoService.getById(id);
+    const limitacion = await limitacionesXProductoService.getByIdProducto(id);
   
     if (limitacion!=null){
       respuesta = res.status(StatusCodes.OK).json(limitacion);

@@ -22,14 +22,14 @@ export default class LimitacionesXProductoService {
         return returnAll;
     }
 
-    getById = async (id) => {
+    getByIdProducto = async (id) => {
         let returnEntity = null;
         console.log('Estoy en: limitacionesXProductoService.GetById(id)');
         try {
             let pool = await sql.connect(config);
             let result = await pool.request()
-                                    .input('pIdLimitacionXProducto', sql.Int, id)
-                                    .query('SELECT * FROM LimitacionXProducto WHERE idLimitacionXProducto = @pIdLimitacionXProducto');
+                                    .input('pIdProducto', sql.Int, id)
+                                    .query('SELECT * FROM LimitacionXProducto WHERE idProducto = @pIdProducto');
             returnEntity = result.recordsets[0][0];
 
         } catch (error) {
