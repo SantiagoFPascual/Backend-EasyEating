@@ -161,9 +161,9 @@ export default class LimitacionesXProductoService {
                     var aptoIntLactosa = false;
 
                     for (let i = 0; i < length_labels_lactose; i++) {    
-                        if (producto.product.labels_hierarchy[i] == 'en:no-lactose') {
+                        if (producto.product.labels_hierarchy[i] == 'en:no-lactose' || producto.product.labels_hierarchy[i] == '') {
                             aptoIntLactosa = true;
-                        }     
+                        }
                     }
 
                     if(aptoIntLactosa == false){
