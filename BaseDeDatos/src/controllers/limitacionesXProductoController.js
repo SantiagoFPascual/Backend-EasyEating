@@ -20,7 +20,7 @@ router.get('', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     let respuesta;
-    let id = req.params.id;
+    let id = req.params.idProducto;
     console.log("GetById" + id);
     const limitacion = await limitacionesXProductoService.getByIdProducto(id);
   
